@@ -11,10 +11,11 @@
             right: -300px; /* Start off-screen to the right */
             display: none;
             z-index: 1000;
-            transition: right 0.5s; /* Slide effect */
+            transition: right 0.5s ease; /* Slide effect */
             background: white; /* Optional background */
             border: 1px solid #e67e22; /* Optional border */
             padding: 10px; /* Optional padding */
+            animation: heartbeat 1s infinite; /* Heartbeat animation */
         }
 
         #popup img {
@@ -32,13 +33,22 @@
             border: none;
             padding: 5px 10px;
         }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
     </style>
 </head>
 <body>
 
 <div id="popup" onmouseover="redirect()">
     <button id="close-btn" onclick="closePopup()">Close</button>
-    <img src="https://i.pinimg.com/280x280_RS/76/d1/b0/76d1b0803baa3525a499fa7eda3f69ed.jpg" alt="Amazing Deal!" /> <!-- Change to your image URL -->
+    <img src="https://i.pinimg.com/1200x/91/d8/12/91d8129bad1808451732c7f0deb381be.jpg" alt="Amazing Deal!" /> <!-- Change to your image URL -->
 </div>
 
 <script>
@@ -55,7 +65,9 @@
         }
 
         popup.style.display = 'block';
-        popup.style.right = '10px'; // Slide in from the right
+        setTimeout(() => {
+            popup.style.right = '10px'; // Slide in from the right
+        }, 10); // Small timeout to trigger the transition
 
         // Hide after 10 seconds and slide out
         setTimeout(() => {
@@ -78,8 +90,8 @@
         }, 500); // Wait for slide out transition
     }
 
-    // Show the popup immediately on page load
-    showPopup();
+    // Show the popup immediately on page load with slide in effect
+    window.onload = showPopup;
 
     // Set an interval to show the popup every 15 seconds
     setInterval(showPopup, 15000); // Show every 15 seconds
