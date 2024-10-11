@@ -23,15 +23,20 @@
         }
 
         #close-btn {
-            display: none; /* Hidden by default */
+            display: block; /* Show by default */
             cursor: pointer;
             position: absolute;
             top: 5px;
             right: 5px;
-            background: #e67e22;
+            background: #EFBF04;
             color: white;
             border: none;
-            padding: 5px 10px;
+            border-radius: 50%; /* Make it circular */
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+            line-height: 30px; /* Center the X vertically */
         }
 
         @keyframes heartbeat {
@@ -46,9 +51,9 @@
 </head>
 <body>
 
-<div id="popup" onmouseover="redirect()">
-    <button id="close-btn" onclick="closePopup()">Close</button>
-    <img src="https://i.pinimg.com/1200x/91/d8/12/91d8129bad1808451732c7f0deb381be.jpg" alt="Amazing Deal!" /> <!-- Change to your image URL -->
+<div id="popup">
+    <button id="close-btn" onclick="closePopup()">✖</button>
+    <img src="https://i.pinimg.com/1200x/91/d8/12/91d8129bad1808451732c7f0deb381be.jpg" alt="Amazing Deal!" />
 </div>
 
 <script>
@@ -61,7 +66,10 @@
         const closeButton = document.getElementById('close-btn');
 
         if (displayCount > 5) {
-            closeButton.style.display = 'block'; // Show the close button after 5 displays
+            closeButton.style.display = 'block'; // Show close button after 5 displays
+            popup.onmouseover = null; // Disable redirect on hover
+        } else {
+            popup.onmouseover = redirect; // Enable redirect on hover
         }
 
         popup.style.display = 'block';
@@ -71,15 +79,19 @@
 
         // Hide after 10 seconds and slide out
         setTimeout(() => {
-            popup.style.right = '-300px'; // Slide out to the left
-            setTimeout(() => {
-                popup.style.display = 'none'; // Hide completely
-            }, 500); // Wait for slide out transition
+            if (displayCount <= 5) {
+                popup.style.right = '-300px'; // Slide out to the left
+                setTimeout(() => {
+                    popup.style.display = 'none'; // Hide completely
+                }, 500); // Wait for slide out transition
+            }
         }, 10000); // Show for 10 seconds
     }
 
     function redirect() {
-        window.location.href = 'https://woxb.com/home'; // Change this URL
+        if (displayCount <= 5) {
+            window.location.href = 'https://woxb.com/home'; // Redirect if under 5 displays
+        }
     }
 
     function closePopup() {
